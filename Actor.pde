@@ -5,6 +5,7 @@ public class Actor {
     protected float xPos;
     protected float yPos;
     protected float xVelocity;
+    protected float yVelocity = 5;
 
     public Actor (float xPos, float yPos, float sizeX, float sizeY, float xVelocity) {
         this.xPos = xPos;
@@ -41,10 +42,26 @@ public class Actor {
     }
 
     public void moveY(float y) {
-        this.yPos += y;
+        this.yPos += y * this.yVelocity;
         this.checkYPos();
     }
 
+    public float getXPos() {
+        return this.xPos;
+    }
+
+    public float getYPos() {
+        return this.yPos;
+    }
+    
+    public float getSizeX() {
+        return this.sizeX;
+    }
+    
+    public float getSizeY(){
+        return this.sizeY;
+    }
+    
     public void checkXPos() {
         float leftBoundrary = sizeX / 2;
         float rightBoundrary = width - leftBoundrary;
