@@ -13,6 +13,11 @@ void setup() {
 
 void draw() {
     clear();
+        
+    if (gameLogic.collide()) {
+        println("Done!"); 
+        done = true;
+    }
 
     if(!done){
     gameLogic.compute(keyCode, keyPressed);

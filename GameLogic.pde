@@ -30,12 +30,20 @@ public class GameLogic {
     }
     
     public boolean collide() {
-        float xspaceShip = spaceShip.getXPos();
-        float yspaceShip = spaceShip.getYPos();
+        float leftSpace = spaceShip.getXPos() - spaceShip.getSizeX() / 2;
+        float rightSpace = spaceShip.getXPos() + spaceShip.getSizeX() / 2;
+        float upSpace = spaceShip.getYPos() - spaceShip.getSizeY() / 2;
+        float botSpace = spaceShip.getYPos() + spaceShip.getSizeY() / 2;
 
         for (Obstacle o : this.obstacles) {
-            boolean insideXBoundrary = xspaceShip >= o.getXPos() - o.getSizeX() / 2 && xspaceShip <= o.getXPos() + o.getSizeX() / 2;
-            boolean insideYBoundrary = yspaceShip >= o.getYPos() - o.getSizeY() / 2 && yspaceShip <= o.getYPos() + o.getSizeY() / 2;
+            float leftO = o.getXPos() - o.getSizeX() / 2;
+            float rightO = o.getXPos() + o.getSizeX() / 2;
+            float upO = o.getYPos() - o.getSizeY() / 2;
+            float botO = o.getYPos() + o.getSizeY() / 2;
+
+            boolean insideXBoundrary = (leftSpace >= leftO && leftSpace <= rightO) || (rightSpace >= leftO && rightSpace <= rightO);
+            boolean insideYBoundrary = (upSpace >= upO && botSpace <= botO) || (botSpace >= upO && botSpace <= botO);
+            
             if(insideXBoundrary && insideYBoundrary){
                 return true;
             }
