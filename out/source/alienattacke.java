@@ -15,7 +15,7 @@ import java.io.IOException;
 public class alienattacke extends PApplet {
 
 GameLogic gameLogic;
-
+boolean done;
 public void setup() {
 
     // Scene Setup
@@ -23,14 +23,23 @@ public void setup() {
     
 
     // Init
-    gameLogic = new GameLogic(new SpaceShip(0, height, 50, 50, 10), 50);
+    gameLogic = new GameLogic(new SpaceShip(0, height, 50, 50, 10), 30);
     println("Hello World!");
 }
 
 public void draw() {
     clear();
+
+    if(!done){
     gameLogic.compute(keyCode, keyPressed);
+    }
     gameLogic.draw();
+        
+    if (gameLogic.collide()) {
+        println("Done!"); 
+        done = true;
+    }
+
 }
 public class Actor {
 
@@ -121,6 +130,7 @@ public class GameLogic {
 
     SpaceShip spaceShip;
     Obstacle[] obstacles;
+    boolean lost = false;
 
     public GameLogic (SpaceShip spaceShip, int obCount) {
         this.spaceShip = spaceShip;
@@ -134,7 +144,7 @@ public class GameLogic {
         if(keyPressed){
             spaceShip.moveArrow(keyCode);
         }
-        
+
         for (Obstacle o : this.obstacles) {
             o.move();
         }
@@ -147,17 +157,30 @@ public class GameLogic {
         }
     }
     
-    private void collide() {
+    public boolean collide() {
+        float xspaceShip = spaceShip.getXPos();
+        float yspaceShip = spaceShip.getYPos();
+
+        for (Obstacle o : this.obstacles) {
+            boolean insideXBoundrary = xspaceShip >= o.getXPos() - o.getSizeX() / 2 && xspaceShip <= o.getXPos() + o.getSizeX() / 2;
+            boolean insideYBoundrary = yspaceShip >= o.getYPos() - o.getSizeY() / 2 && yspaceShip <= o.getYPos() + o.getSizeY() / 2;
+            if(insideXBoundrary && insideYBoundrary){
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 public class Obstacle extends Actor {
 
     public Obstacle(){
-        super(random(5, width - 5), random(-height, 5), 10,10);
+        super(random(5, width - 5), random(-height, 5), 10,10,1);
     }
 
     public void move(){
         this.moveY(1);
+        this.moveX(random(-5,5));
     }
 
     @Override

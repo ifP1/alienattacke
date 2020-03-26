@@ -29,7 +29,18 @@ public class GameLogic {
         }
     }
     
-    private void collide() {
-        
+    public boolean collide() {
+        float xspaceShip = spaceShip.getXPos();
+        float yspaceShip = spaceShip.getYPos();
+
+        for (Obstacle o : this.obstacles) {
+            boolean insideXBoundrary = xspaceShip >= o.getXPos() - o.getSizeX() / 2 && xspaceShip <= o.getXPos() + o.getSizeX() / 2;
+            boolean insideYBoundrary = yspaceShip >= o.getYPos() - o.getSizeY() / 2 && yspaceShip <= o.getYPos() + o.getSizeY() / 2;
+            if(insideXBoundrary && insideYBoundrary){
+                return true;
+            }
+        }
+
+        return false;
     }
 }
