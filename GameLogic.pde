@@ -1,17 +1,17 @@
 public class GameLogic {
 
-    Actor actor;
+    SpaceShip spaceShip;
 
-    public GameLogic (Actor actor) {
-        this.actor = actor;
+    public GameLogic (SpaceShip spaceShip) {
+        this.spaceShip = spaceShip;
     }
 
     public void compute(int keyCode){
-        actor.moveArrow(keyCode);
+        spaceShip.moveArrow(keyCode);
     }
 
     public void draw(){
-        actor.draw();
+        spaceShip.draw();
     }
     
     private void collide() {

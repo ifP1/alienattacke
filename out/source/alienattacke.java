@@ -23,7 +23,7 @@ public void setup() {
     
 
     // Init
-    gameLogic = new GameLogic(new Actor(0, height, 50, 50));
+    gameLogic = new GameLogic(new SpaceShip(0, height, 50, 50, 10));
     println("Hello World!");
 }
 
@@ -37,11 +37,11 @@ public void draw() {
 }
 public class Actor {
 
-    float sizeX;
-    float sizeY;
-    float xPos;
-    float yPos;
-    float xVelocity;
+    protected float sizeX;
+    protected float sizeY;
+    protected float xPos;
+    protected float yPos;
+    protected float xVelocity;
 
     public Actor (float xPos, float yPos, float sizeX, float sizeY, float xVelocity) {
         this.xPos = xPos;
@@ -49,10 +49,16 @@ public class Actor {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         this.xVelocity = xVelocity;
+
+        this.checkXPos();
     }
 
     public Actor(float xPos, float yPos, float sizeX, float sizeY){
         this(xPos,yPos,sizeX,sizeX,10);
+    }
+
+    public Actor(){
+        this(0, height, 50, 50, 10);
     }
 
     public void draw(){
@@ -62,6 +68,60 @@ public class Actor {
     public void move(float x, float y) {
         this.moveX(x);
         this.moveY(y);
+    }
+
+    public void moveX(float x){
+        this.xPos += x * this.xVelocity;
+        this.checkXPos();
+
+    }
+
+    public void moveY(float y) {
+        this.yPos += y;
+    }
+
+    public void checkXPos() {
+        float leftBoundrary = sizeX / 2;
+        float rightBoundrary = width - sizeX / 2;
+        if(this.xPos <= leftBoundrary){
+            this.xPos = leftBoundrary;
+        } else if (this.xPos >= rightBoundrary) {
+            this.xPos = rightBoundrary;
+        }
+        
+    }
+}
+public class GameLogic {
+
+    SpaceShip spaceShip;
+
+    public GameLogic (SpaceShip spaceShip) {
+        this.spaceShip = spaceShip;
+    }
+
+    public void compute(int keyCode){
+        spaceShip.moveArrow(keyCode);
+    }
+
+    public void draw(){
+        spaceShip.draw();
+    }
+    
+    private void collide() {
+    }
+}
+public class SpaceShip extends Actor {
+
+    public SpaceShip (float xPos, float yPos, float sizeX, float sizeY, float xVelocity) {
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
+        this.xVelocity = xVelocity;
+    }
+
+    public SpaceShip(){
+        super();
     }
 
     public void moveArrow(int keyCode) {
@@ -85,32 +145,6 @@ public class Actor {
         }
     }
 
-    public void moveX(float x){
-        this.xPos += x * this.xVelocity;
-    }
-
-    public void moveY(float y) {
-        this.yPos += y;
-    }
-}
-public class GameLogic {
-
-    Actor actor;
-
-    public GameLogic (Actor actor) {
-        this.actor = actor;
-    }
-
-    public void compute(int keyCode){
-        actor.moveArrow(keyCode);
-    }
-
-    public void draw(){
-        actor.draw();
-    }
-    
-    private void collide() {
-    }
 }
   public void settings() {  size(200, 200, OPENGL); }
   static public void main(String[] passedArgs) {

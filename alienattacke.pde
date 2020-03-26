@@ -7,7 +7,7 @@ void setup() {
     size(200, 200, OPENGL);
 
     // Init
-    gameLogic = new GameLogic(new Actor(0, height, 50, 50));
+    gameLogic = new GameLogic(new SpaceShip(0, height, 50, 50, 10));
     println("Hello World!");
 }
 
