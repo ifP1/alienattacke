@@ -14,6 +14,7 @@ public class Actor {
         this.xVelocity = xVelocity;
 
         this.checkXPos();
+        this.checkYPos();
     }
 
     public Actor(float xPos, float yPos, float sizeX, float sizeY){
@@ -41,16 +42,27 @@ public class Actor {
 
     public void moveY(float y) {
         this.yPos += y;
+        this.checkYPos();
     }
 
     public void checkXPos() {
         float leftBoundrary = sizeX / 2;
-        float rightBoundrary = width - sizeX / 2;
+        float rightBoundrary = width - leftBoundrary;
         if(this.xPos <= leftBoundrary){
             this.xPos = leftBoundrary;
         } else if (this.xPos >= rightBoundrary) {
             this.xPos = rightBoundrary;
         }
         
+    }
+
+    public void checkYPos() {
+        float upperBoundrary = sizeY / 2;
+        float bottomBoundrary = height - upperBoundrary;
+        if(this.yPos <= upperBoundrary){
+            this.yPos = upperBoundrary;
+        } else if (this.yPos >= bottomBoundrary){
+            this.yPos = bottomBoundrary;
+        }
     }
 }
