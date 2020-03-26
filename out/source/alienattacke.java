@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class alienattacke extends PApplet {
 
-Actor actor;
+GameLogic gameLogic;
 
 public void setup() {
 
@@ -23,16 +23,17 @@ public void setup() {
     
 
     // Init
-    actor  = new Actor(0, height, 100, 100);
+    gameLogic = new GameLogic(new Actor(0, height, 50, 50));
     println("Hello World!");
 }
 
 public void draw() {
     clear();
     if(keyPressed){
-        actor.moveHoriArrow(keyCode);
+        gameLogic.compute(keyCode);
     }
-    actor.draw();
+
+    gameLogic.draw();
 }
 public class Actor {
 
@@ -90,6 +91,25 @@ public class Actor {
 
     public void moveY(float y) {
         this.yPos += y;
+    }
+}
+public class GameLogic {
+
+    Actor actor;
+
+    public GameLogic (Actor actor) {
+        this.actor = actor;
+    }
+
+    public void compute(int keyCode){
+        actor.moveArrow(keyCode);
+    }
+
+    public void draw(){
+        actor.draw();
+    }
+    
+    private void collide() {
     }
 }
   public void settings() {  size(200, 200, OPENGL); }

@@ -1,4 +1,4 @@
-Actor actor;
+GameLogic gameLogic;
 
 void setup() {
 
@@ -7,14 +7,15 @@ void setup() {
     size(200, 200, OPENGL);
 
     // Init
-    actor  = new Actor(0, height, 100, 100);
+    gameLogic = new GameLogic(new Actor(0, height, 50, 50));
     println("Hello World!");
 }
 
 void draw() {
     clear();
     if(keyPressed){
-        actor.moveHoriArrow(keyCode);
+        gameLogic.compute(keyCode);
     }
-    actor.draw();
+
+    gameLogic.draw();
 }
